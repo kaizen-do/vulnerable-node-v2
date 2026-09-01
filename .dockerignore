@@ -1,0 +1,61 @@
+# Version control
+.git
+.github
+.gitignore
+
+# Dependencies (installed fresh via npm install during build)
+node_modules
+jspm_packages
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Security - attack scripts and scanner output
+attacks
+scanner
+findings
+
+# AI/tooling artifacts
+prompts
+opencode.json
+opencode-output.txt
+opencode-stderr.txt
+
+# Documentation
+README.md
+LICENSE
+remediation_progress.md
+images
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE and editor files
+.idea
+*.iws
+
+# Test coverage
+.nyc_output
+coverage
+lib-cov
+
+# Build artifacts
+.grunt
+build
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# npm
+.npm
+.node_repl_history
+.lock-wscript

@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session')
+var { csrfSync } = require('csrf-sync');
 var engine = require('ejs-locals');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -41,12 +42,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'ñasddfilhpaf78h78032h780g780fg780asg780dsbovncubuyvqy',
+  secret: process.env.SESSION_SECRET || 'ñasddfilhpaf78h78032h780g780fg780asg780dsbovncubuyvqy',
+  resave: false,
+  saveUninitialized: false,
   cookie: {
-    secure: false,
-    maxAge: 99999999999
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 86400000,
+    sameSite: 'lax'
   }
 }));
+
+var { csrfSynchronisedProtection, generateToken } = csrfSync({
+  getTokenFromRequest: function(req) { return req.body._csrf; }
+});
+app.use(csrfSynchronisedProtection);
+app.use(function(req, res, next) {
+  res.locals.csrfToken = generateToken(req);
+  next();
+});
 
 /*
  * Routes config

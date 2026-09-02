@@ -6,6 +6,7 @@
     <div class="col-md-12">
 
         <form class="form-signin" method="post" action="/login/auth" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <h2 class="form-signin-heading">Please sign in</h2>
 
             <label for="username" class="sr-only">Email address</label>
@@ -14,12 +15,12 @@
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password..." required>
 
-            <input type="hidden" id="returnurl" class="form-control" name="returnurl" value="<%-returnurl%>">
+            <input type="hidden" id="returnurl" class="form-control" name="returnurl" value="<%=returnurl%>">
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
             <% if (auth_error != undefined) { %>
-            <span class="label label-danger"><%-auth_error%></span>
+            <span class="label label-danger"><%=auth_error%></span>
             <% } %>
             <hr />
             <p><b>Users:</b></p>

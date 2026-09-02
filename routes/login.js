@@ -6,6 +6,14 @@ var router = express.Router();
 
 var logger = log4js.getLogger('vnode')
 
+function isSafeReturnUrl(userUrl) {
+  if (!userUrl || typeof userUrl !== 'string') return '/';
+  if (userUrl.startsWith('//') || userUrl.startsWith('/\\') || !userUrl.startsWith('/')) return '/';
+  var parsed = url.parse(userUrl);
+  if (parsed.protocol || parsed.host) return '/';
+  return userUrl;
+}
+
 // Login template
 router.get('/login', function(req, res, next) {
 
@@ -33,10 +41,10 @@ router.post('/login/auth', function(req, res) {
                 returnurl = "/";
             }
 
-            res.redirect(returnurl);
+            res.redirect(isSafeReturnUrl(returnurl));
         })
         .catch(function (err) {
-            res.redirect("/login?returnurl=" + returnurl + "&error=" + err.message);
+            res.redirect("/login?returnurl=" + encodeURIComponent(returnurl || '') + "&error=" + encodeURIComponent(err.message));
         });
 
 });

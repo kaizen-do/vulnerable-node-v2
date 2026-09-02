@@ -1,7 +1,7 @@
 var express = require('express');
 var session = require('express-session')
 var { csrfSync } = require('csrf-sync');
-var engine = require('ejs-locals');
+var expressLayouts = require('express-ejs-layouts');
 var path = require('path');
 var favicon = require('serve-favicon');
 var fs = require("fs");
@@ -29,14 +29,14 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'))
 /*
  * Template engine
  */
-app.engine('ejs', engine);
+app.use(expressLayouts);
+app.set('layout', 'layout');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 app.use(logger('combined', {stream: accessLogStream}));
-app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -84,7 +84,8 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      error: err,
+      layout: false
     });
   });
 }
@@ -95,7 +96,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: {}
+    error: {},
+    layout: false
   });
 });
 

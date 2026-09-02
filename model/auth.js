@@ -4,9 +4,7 @@ var config = require("../config"),
 function do_auth(username, password) {
     var db = pgp(config.db.connectionString);
 
-    var q = "SELECT * FROM users WHERE name = '" + username + "' AND password ='" + password + "';";
-
-    return db.one(q);
+    return db.one('SELECT * FROM users WHERE name = $1 AND password = $2', [username, password]);
 }
 
 module.exports = do_auth;

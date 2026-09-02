@@ -83,3 +83,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Environment files
+.env
+.env.*
+

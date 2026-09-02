@@ -49,6 +49,7 @@
                         </div>
                         <input type="hidden" class="form-control" name="product_id" id="product_id" value="<%- product.id %>">
                         <input type="hidden" class="form-control" name="product_name" id="product_name" value="<%- product.name %>">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 </div>
                 <div class="modal-footer">
                     <span id="error" class="label label-danger pull-left hidden"></span>

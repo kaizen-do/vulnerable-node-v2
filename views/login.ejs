@@ -15,6 +15,7 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Password..." required>
 
             <input type="hidden" id="returnurl" class="form-control" name="returnurl" value="<%-returnurl%>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 

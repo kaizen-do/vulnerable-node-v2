@@ -86,16 +86,11 @@ router.get('/products/search', function(req, res, next) {
 });
 
 
-router.all('/products/buy', function(req, res, next) {
+router.post('/products/buy', function(req, res, next) {
 
     check_logged(req, res);
 
-    var params = null;
-    if (req.method == "GET"){
-        params = url.parse(req.url, true).query;
-    } else {
-        params = req.body;
-    }
+    var params = req.body;
 
     var cart = null;
 

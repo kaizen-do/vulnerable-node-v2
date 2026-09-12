@@ -22,7 +22,7 @@ function search(query) {
 
 function purchase(cart) {
 
-    return db.one('INSERT INTO purchases(mail, product_name, user_name, product_id, address, phone, ship_date, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [cart.mail, cart.product_name, cart.username, cart.product_id, cart.address, cart.ship_date, cart.phone, cart.price]);
+    return db.none('INSERT INTO purchases(mail, product_name, user_name, product_id, address, phone, ship_date, price) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [cart.mail, cart.product_name, cart.username, cart.product_id, cart.address, cart.phone, cart.ship_date, cart.price]);
 
 }
 

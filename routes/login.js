@@ -34,14 +34,21 @@ router.post('/login/auth', function(req, res) {
 
     auth(user, password)
         .then(function (data) {
-            req.session.logged = true;
-            req.session.user_name = user;
+            req.session.regenerate(function (err) {
+                if (err) {
+                    logger.error("Session regeneration failed: " + err.message);
+                    return res.redirect("/login?error=" + encodeURIComponent("Session error, please try again"));
+                }
 
-            if (returnurl == undefined || returnurl == ""){
-                returnurl = "/";
-            }
+                req.session.logged = true;
+                req.session.user_name = user;
 
-            res.redirect(isSafeReturnUrl(returnurl));
+                if (returnurl == undefined || returnurl == ""){
+                    returnurl = "/";
+                }
+
+                res.redirect(isSafeReturnUrl(returnurl));
+            });
         })
         .catch(function (err) {
             res.redirect("/login?returnurl=" + encodeURIComponent(returnurl || '') + "&error=" + encodeURIComponent(err.message));
@@ -52,10 +59,12 @@ router.post('/login/auth', function(req, res) {
 // Do logout
 router.get('/logout', function(req, res, next) {
 
-    req.session.logged = false;
-    req.session.user = null;
-
-    res.redirect("/login")
+    req.session.destroy(function (err) {
+        if (err) {
+            logger.error("Session destruction failed: " + err.message);
+        }
+        res.redirect("/login");
+    });
 });
 
 module.exports = router;

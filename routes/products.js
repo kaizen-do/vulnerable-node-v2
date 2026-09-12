@@ -135,11 +135,14 @@ router.all('/products/buy', function(req, res, next) {
     }
 
     db_products.purchase(cart)
+        .then(function () {
+            return res.json({message: "Product purchased correctly"});
+        })
         .catch(function (err) {
 
             console.log(err);
 
-            return res.json({message: "Product purchased correctly"});
+            return res.status(500).json({message: "Error purchasing product"});
         });
 
 });
